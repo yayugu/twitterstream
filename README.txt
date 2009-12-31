@@ -8,8 +8,6 @@ It is the simple library to access the Twitter Streaming API( http://apiwiki.twi
 
 == FEATURES/PROBLEMS:
 
-
-
 == SYNOPSIS:
 
 require "twitterStream"

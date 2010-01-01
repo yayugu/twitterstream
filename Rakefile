@@ -10,10 +10,10 @@ Hoe.plugin :newgem
 
 # Generate all the Rake tasks
 # Run 'rake -T' to see list of generated tasks (from gem root directory)
-$hoe = Hoe.spec 'twitter_stream' do
+$hoe = Hoe.spec 'twitterstream' do
   self.developer 'yayugu', 'yayugu@gmail.com'
 
-  self.rubyforge_name       = self.name # TODO this is default value
+  self.rubyforge_name       = "twitterstream" # TODO this is default value
   self.extra_deps         = [['json','>= 1.2.0']]
 
 end

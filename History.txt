@@ -1,0 +1,10 @@
+=== 0.1.0 2010-01-01
+
+* Fixed some from Sora Harakami
+  * TwitterStream::Client => TwitterStream
+  * require 'twitterStream' => require 'twitter_stream'
+  * TwitterStream#start_stream is to be a private method
+
+=== 0.0.1 2009-12-31
+
+* Initial release from yayugu

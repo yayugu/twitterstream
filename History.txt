@@ -1,5 +1,6 @@
 === 0.1.1 2010-01-01
 * Fixed require 'twitter_stream' => 'twitterstream'
+* Fixed couldn't get deletion/limitation notice
 
 === 0.1.0 2010-01-01
 

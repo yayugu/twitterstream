@@ -96,7 +96,6 @@ class TwitterStream
             http.request(request) do |response|
                 response.each_line("\r\n") do |line|
                     j = JSON.parse(line) rescue next
-                    next unless j["text"]
                     yield j
                 end
             end

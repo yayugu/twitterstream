@@ -1,9 +1,9 @@
-History.txt
+History.mkd
 Manifest.txt
 README.rdoc
-README.txt
+README.mkd
 Rakefile
-lib/twitterstream.rb
+lib/twitter_stream.rb
 script/console
 script/destroy
 script/generate

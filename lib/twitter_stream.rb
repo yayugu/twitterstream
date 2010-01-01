@@ -91,8 +91,9 @@ private
             request.basic_auth(@username, @password)
             http.request(request) do |response|
                 response.each_line("\r\n") do |line|
-                    status = JSON.parse(line) rescue next
-                    yield status
+                    j = JSON.parse(line) rescue next
+                    next unless j["text"]
+                    yield j
                 end
             end
         end

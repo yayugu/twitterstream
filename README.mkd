@@ -10,18 +10,21 @@ It is the simple library to access the [Twitter Streaming API](http://apiwiki.tw
 
 ## SYNOPSIS
 
-    require "twitterStream"
-    TwitterStream::Client.new("username", "password").sample do |status|
-      next unless status['text']
+    require "twitter_stream"
+
+    ts = TwitterStream.new(USERNAME,PASSWORD)
+
+    ts.sample do |status|
       user = status['user']
       puts "#{user['screen_name']}: #{status['text']}"
     end
 
-or
+    ts.track(['bit','ly']) do |status| # or ts.track("bit,ly")
+      user = status['user']
+      puts "#{user['screen_name']}: #{status['text']}"
+    end
 
-    require "twitterStream"
-    TwitterStream::Client.new("username", "password").track("bit,ly") do |status|
-      next unless status['text']
+    ts.follow([5161091,66137185]) do |status| # or ts.track("5161091,66137185") or ts.track(["5161091",66137185])
       user = status['user']
       puts "#{user['screen_name']}: #{status['text']}"
     end

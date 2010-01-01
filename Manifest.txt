@@ -1,4 +1,4 @@
-History.mkd
+History.txt
 Manifest.txt
 README.rdoc
 README.mkd

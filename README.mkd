@@ -1,44 +1,45 @@
-= twitterstream
+# twitterstream
 
-* http://rubyforge.org/projects/twitterstream/
+* [rubyforge - twitterstream](http://rubyforge.org/projects/twitterstream/)
 
-== DESCRIPTION:
+## DESCRIPTION
 
-It is the simple library to access the Twitter Streaming API( http://apiwiki.twitter.com/Streaming-API-Documentation ). It works with pure-ruby(don't need C compiler) and rubygems.
+It is the simple library to access the [Twitter Streaming API](http://apiwiki.twitter.com/Streaming-API-Documentation). It works with pure-ruby(don't need C compiler) and rubygems.
 
-== FEATURES/PROBLEMS:
+## FEATURES/PROBLEMS
 
-== SYNOPSIS:
+## SYNOPSIS
 
-require "twitterStream"
-TwitterStream::Client.new("username", "password").sample do |status|
-  next unless status['text']
-  user = status['user']
-  puts "#{user['screen_name']}: #{status['text']}"
-end
+    require "twitterStream"
+    TwitterStream::Client.new("username", "password").sample do |status|
+      next unless status['text']
+      user = status['user']
+      puts "#{user['screen_name']}: #{status['text']}"
+    end
 
 or
 
-require "twitterStream"
-TwitterStream::Client.new("username", "password").track("bit,ly") do |status|
-  next unless status['text']
-  user = status['user']
-  puts "#{user['screen_name']}: #{status['text']}"
-end
+    require "twitterStream"
+    TwitterStream::Client.new("username", "password").track("bit,ly") do |status|
+      next unless status['text']
+      user = status['user']
+      puts "#{user['screen_name']}: #{status['text']}"
+    end
 
-== REQUIREMENTS:
+## REQUIREMENTS
 
 * json
 
-== INSTALL:
+## INSTALL:
 
-sudo gem install twitterstream
+    sudo gem install twitterstream
 
-== LICENSE:
+## LICENSE:
 
 (The MIT License)
 
-Copyright (c) 2009 FIXME full name
+Copyright (c) 2010 Sora Harakami (Modified)
+Copyright (c) 2009 yayugu
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the

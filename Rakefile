@@ -2,7 +2,7 @@ require 'rubygems'
 gem 'hoe', '>= 2.1.0'
 require 'hoe'
 require 'fileutils'
-require './lib/twitter_stream'
+require './lib/twitterstream'
 
 Hoe.plugin :newgem
 # Hoe.plugin :website

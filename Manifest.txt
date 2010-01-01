@@ -3,9 +3,9 @@ Manifest.txt
 README.rdoc
 README.mkd
 Rakefile
-lib/twitter_stream.rb
+lib/twitterstream.rb
 script/console
 script/destroy
 script/generate
 test/test_helper.rb
-test/test_twitter_stream.rb
+test/test_twitterstream.rb

@@ -8,4 +8,4 @@ script/console
 script/destroy
 script/generate
 test/test_helper.rb
-test/test_twitterstream.rb
+test/test_twitter_stream.rb

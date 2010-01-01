@@ -32,14 +32,14 @@ class TwitterStream
     end
 
     def sample(params=nil)
-        raise ArgumentError, "params is not hash" unless !params.nil? && params.kind_of?(Hash)
+        raise ArgumentError, "params is not hash" unless params.nil? || params.kind_of?(Hash)
         start_stream('sample', params) do |status|
             yield status
         end
     end
 
     def filter(params=nil)
-        raise ArgumentError, "params is not hash" unless !params.nil? && params.kind_of?(Hash)
+        raise ArgumentError, "params is not hash" unless params.nil? || params.kind_of?(Hash)
         start_stream('filter', params) do |status|
             yield status
         end
@@ -47,19 +47,19 @@ class TwitterStream
 
     def track(track, params=nil)
         raise ArgumentError, "track is not array or string" unless track.kind_of?(Array) || track.kind_of?(String)
-        raise ArgumentError, "params is not hash" unless !params.nil? && params.kind_of(Hash)
+        raise ArgumentError, "params is not hash" unless params.nil? || params.kind_of?(Hash)
 
         p = { 'track' => track.kind_of?(Array) ? track.map{|x| raise ArgumentError, "track item is not string or integer!" unless x.kind_of?(String) || x.kind_of?(Integer); x.kind_of?(Integer) ? x.to_s : x }.join(",") : track }
 
         p.merge!('filter',params) if params
-        start_stream(uri, p) do |status|
+        start_stream('filter', p) do |status|
             yield status
         end
     end
 
     def follow(follow, params=nil)
         raise ArgumentError, "follow is not array or string" unless follow.kind_of?(Array) || follow.kind_of?(String)
-        raise ArgumentError, "params is not hash" unless !params.nil? && params.kind_of?(Hash)
+        raise ArgumentError, "params is not hash" unless params.nil? || params.kind_of?(Hash)
 
         p = { 'follow' => follow.kind_of?(Array) ? follow.join(",") : follow }
         p.merge!(params) if params
@@ -69,10 +69,10 @@ class TwitterStream
         end
     end
 
-private
+    private
 
     def start_stream(url, params=nil)
-        raise ArgumentError, "params is not hash" unless !params.nil? && params.kind_of?(Hash)
+        raise ArgumentError, "params is not hash" unless params.nil? || params.kind_of?(Hash)
         raise ArgumentError, "url is not String or URI!" unless url.kind_of?(URI) || url.kind_of?(String)
 
         if url.kind_of?(URI)
@@ -80,15 +80,19 @@ private
         elsif url.kind_of?(String)
             if @@urls[url]
                 uri = @@urls[url]
-            else
+            elsif /^https?:/ =~ url
                 uri = URI.parse(url)
+            else
+                raise ArgumentError, "@@urls['#{url}'] not found"
             end
         end
 
-        Net::HTTP.start(uri.host, uri.port) do |http|
-            request = Net::HTTP::Post.new(uri.request_uri)
-            request.set_form_data(params) if params
-            request.basic_auth(@username, @password)
+        http = Net::HTTP.start(uri.host, uri.port)
+        request = Net::HTTP::Post.new(uri.request_uri)
+        request.set_form_data(params) if params
+        request.basic_auth(@username, @password)
+
+        begin
             http.request(request) do |response|
                 response.each_line("\r\n") do |line|
                     j = JSON.parse(line) rescue next
@@ -96,6 +100,8 @@ private
                     yield j
                 end
             end
+        ensure
+            http.finish
         end
     end
 end

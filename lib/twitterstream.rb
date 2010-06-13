@@ -5,6 +5,7 @@ require 'net/http'
 require 'uri'
 require 'rubygems'
 require 'json'
+require 'oauth'
 
 module Net
   class HTTPResponse
@@ -23,12 +24,17 @@ class TwitterStream
   @@urls = {
     'sample' => URI.parse("http://stream.twitter.com/1/statuses/sample.json"),
     'filter' => URI.parse("http://stream.twitter.com/1/statuses/filter.json"),
-    'chirpuserstreams' => URI.parse('http://chirpstream.twitter.com/2b/user.json'),
+    'chirpuserstreams' => URI.parse('http://betastream.twitter.com/2b/user.json'),
   }
   
-  def initialize(username, password)
-    @username = username
-    @password = password
+  def initialize(params={ })
+    if params[:username] && params[:password]
+      @username = params[:username]
+      @password = params[:password]
+    else
+      @consumer = OAuth::Consumer.new(params[:consumer_token], params[:consumer_secret])
+      @access = OAuth::Token.new(params[:access_token], params[:access_secret])
+    end
     self
   end
   
@@ -77,7 +83,6 @@ class TwitterStream
     end
   end
   
-  
   private
   
   def start_stream(url, params=nil)
@@ -99,8 +104,12 @@ class TwitterStream
     http = Net::HTTP.start(uri.host, uri.port)
     request = Net::HTTP::Post.new(uri.request_uri)
     request.set_form_data(params) if params
-    request.basic_auth(@username, @password)
-    
+    if @username && @password
+      request.basic_auth(@username, @password)
+    else
+      request.oauth!(http, @consumer, @access)
+    end
+
     begin
       http.request(request) do |response|
         response.each_line("\r\n") do |line|

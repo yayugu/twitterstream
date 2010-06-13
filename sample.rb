@@ -13,6 +13,15 @@ ts.sample do |status|
     puts "#{user['screen_name']}: #{status['text']}"
 end
 
+puts "chirpuserstreams"
+i = 0
+ts.chirpuserstreams do |status|
+    break if i > 5
+    i += 1
+    user = status['user']
+    puts "#{user['screen_name']}: #{status['text']}"
+end
+
 puts "track ary"
 i = 0
 ts.track(['bit','ly']) do |status| # or ts.track("bit,ly")
@@ -58,11 +67,3 @@ ts.follow(["5161091",66137185]) do |status| # or ts.track("5161091,66137185") or
     puts "#{user['screen_name']}: #{status['text']}"
 end
 
-puts "chirpuserstreams"
-i = 0
-ts.sample do |status|
-    break if i > 5
-    i += 1
-    user = status['user']
-    puts "#{user['screen_name']}: #{status['text']}"
-end

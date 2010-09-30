@@ -24,7 +24,7 @@ class TwitterStream
   @@urls = {
     'sample' => URI.parse("http://stream.twitter.com/1/statuses/sample.json"),
     'filter' => URI.parse("http://stream.twitter.com/1/statuses/filter.json"),
-    'chirpuserstreams' => URI.parse('http://betastream.twitter.com/2b/user.json'),
+    'userstreams' => URI.parse('https://userstream.twitter.com/2/user.json?replies=all'),
   }
   
   def initialize(params={ })
@@ -76,9 +76,9 @@ class TwitterStream
     end
   end
   
-  def chirpuserstreams(params=nil)
+  def userstreams(params=nil)
     raise ArgumentError, "params is not hash" unless params.nil? || params.kind_of?(Hash)
-    start_stream('chirpuserstreams', params) do |status|
+    start_stream('userstreams', params) do |status|
       yield status
     end
   end
@@ -101,7 +101,9 @@ class TwitterStream
       end
     end
     
-    http = Net::HTTP.start(uri.host, uri.port)
+    http = Net::HTTP.new(uri.host, uri.port)
+    http.use_ssl = true if uri.host == "userstream.twitter.com"
+    http.start
     request = Net::HTTP::Post.new(uri.request_uri)
     request.set_form_data(params) if params
     if @username && @password

@@ -14,9 +14,9 @@ ts.sample do |status|
     puts "#{user['screen_name']}: #{status['text']}"
 end
 
-puts "chirpuserstreams"
+puts "userstreams"
 i = 0
-ts.chirpuserstreams do |status|
+ts.userstreams do |status|
   next unless status['text']
     break if i > 5
     i += 1

@@ -1,3 +1,6 @@
+=== 0.2.1 2011-03-05
+* Fixed add depend gem 'oauth'
+
 === 0.2.0 2011-01-08
 * Support Production UserStreams
 

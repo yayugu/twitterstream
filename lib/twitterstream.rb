@@ -20,7 +20,7 @@ module Net
 end
 
 class TwitterStream
-  VERSION = '0.2.0'
+  VERSION = '0.2.1'
   @@urls = {
     'sample' => URI.parse("http://stream.twitter.com/1/statuses/sample.json"),
     'filter' => URI.parse("http://stream.twitter.com/1/statuses/filter.json"),

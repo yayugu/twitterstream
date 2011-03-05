@@ -13,8 +13,8 @@ Hoe.plugin :newgem
 $hoe = Hoe.spec 'twitterstream' do
   self.developer 'yayugu', 'yayugu@gmail.com'
 
-  self.rubyforge_name       = "twitterstream" # TODO this is default value
-  self.extra_deps         = [['json','>= 1.2.0']]
+  self.rubyforge_name = "twitterstream" # TODO this is default value
+  self.extra_deps = [['json','>= 1.2.0'], ['oauth', '>=0.4.1']]
 
 end
 

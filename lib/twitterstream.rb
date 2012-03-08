@@ -20,7 +20,7 @@ module Net
 end
 
 class TwitterStream
-  VERSION = '0.2.1'
+  VERSION = '0.2.2'
   @@urls = {
     'sample' => URI.parse("https://stream.twitter.com/1/statuses/sample.json"),
     'filter' => URI.parse("https://stream.twitter.com/1/statuses/filter.json"),
@@ -39,24 +39,24 @@ class TwitterStream
   end
   
   def sample(params=nil)
-    raise ArgumentError, "params is not hash" unless params.nil? || params.kind_of?(Hash)
+    raise ArgumentError, "Expected a Hash for params" unless params.nil? || params.kind_of?(Hash)
     start_stream('sample', params) do |status|
       yield status
     end
   end
   
   def filter(params=nil)
-    raise ArgumentError, "params is not hash" unless params.nil? || params.kind_of?(Hash)
+    raise ArgumentError, "Expected a Hash for params" unless params.nil? || params.kind_of?(Hash)
     start_stream('filter', params) do |status|
       yield status
     end
   end
   
   def track(track, params=nil)
-    raise ArgumentError, "track is not array or string" unless track.kind_of?(Array) || track.kind_of?(String)
-    raise ArgumentError, "params is not hash" unless params.nil? || params.kind_of?(Hash)
+    raise ArgumentError, "Tracking keywords must be given as Array or String" unless track.kind_of?(Array) || track.kind_of?(String)
+    raise ArgumentError, "Expected a Hash for params" unless params.nil? || params.kind_of?(Hash)
     
-    p = { 'track' => track.kind_of?(Array) ? track.map{|x| raise ArgumentError, "track item is not string or integer!" unless x.kind_of?(String) || x.kind_of?(Integer); x.kind_of?(Integer) ? x.to_s : x }.join(",") : track }
+    p = { 'track' => track.kind_of?(Array) ? track.map{|x| raise ArgumentError, "Tracking keywords must be Strings or Integers" unless x.kind_of?(String) || x.kind_of?(Integer); x.kind_of?(Integer) ? x.to_s : x }.join(",") : track }
     
     p.merge!('filter',params) if params
     start_stream('filter', p) do |status|
@@ -65,8 +65,8 @@ class TwitterStream
   end
   
   def follow(follow, params=nil)
-    raise ArgumentError, "follow is not array or string" unless follow.kind_of?(Array) || follow.kind_of?(String)
-    raise ArgumentError, "params is not hash" unless params.nil? || params.kind_of?(Hash)
+    raise ArgumentError, "Expected single username (String) or Array of usernames" unless follow.kind_of?(Array) || follow.kind_of?(String)
+    raise ArgumentError, "Expected a Hash for params" unless params.nil? || params.kind_of?(Hash)
     
     p = { 'follow' => follow.kind_of?(Array) ? follow.join(",") : follow }
     p.merge!(params) if params
@@ -77,7 +77,7 @@ class TwitterStream
   end
   
   def userstreams(params=nil)
-    raise ArgumentError, "params is not hash" unless params.nil? || params.kind_of?(Hash)
+    raise ArgumentError, "Expected a Hash for params" unless params.nil? || params.kind_of?(Hash)
     start_stream('userstreams', params) do |status|
       yield status
     end
@@ -86,8 +86,8 @@ class TwitterStream
   private
   
   def start_stream(url, params=nil)
-    raise ArgumentError, "params is not hash" unless params.nil? || params.kind_of?(Hash)
-    raise ArgumentError, "url is not String or URI!" unless url.kind_of?(URI) || url.kind_of?(String)
+    raise ArgumentError, "The URL must be a String or URI" unless url.kind_of?(URI) || url.kind_of?(String)
+    raise ArgumentError, "Expected a Hash for params" unless params.nil? || params.kind_of?(Hash)
     
     if url.kind_of?(URI)
       uri = url

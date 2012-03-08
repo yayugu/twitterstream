@@ -22,8 +22,8 @@ end
 class TwitterStream
   VERSION = '0.2.1'
   @@urls = {
-    'sample' => URI.parse("http://stream.twitter.com/1/statuses/sample.json"),
-    'filter' => URI.parse("http://stream.twitter.com/1/statuses/filter.json"),
+    'sample' => URI.parse("https://stream.twitter.com/1/statuses/sample.json"),
+    'filter' => URI.parse("https://stream.twitter.com/1/statuses/filter.json"),
     'userstreams' => URI.parse('https://userstream.twitter.com/2/user.json?replies=all'),
   }
   

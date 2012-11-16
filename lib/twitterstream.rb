@@ -102,7 +102,7 @@ class TwitterStream
     end
     
     http = Net::HTTP.new(uri.host, uri.port)
-    http.use_ssl = true if uri.host == "userstream.twitter.com"
+    http.use_ssl = true
     http.start
     request = Net::HTTP::Post.new(uri.request_uri)
     request.set_form_data(params) if params
